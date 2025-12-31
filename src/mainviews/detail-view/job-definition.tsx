@@ -308,7 +308,7 @@ export function JobDefinition(props: IJobDefinitionProps): JSX.Element {
       {DefinitionButtonBar}
       {JobDefinition}
       {JobsList}
-      {AdvancedOptions}
+      { 1 === 1 ? null : AdvancedOptions}
     </>
   );
 }

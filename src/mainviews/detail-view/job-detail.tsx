@@ -259,11 +259,11 @@ export function JobDetail(props: IJobDetailProps): JSX.Element {
     ]
   ];
 
-  const hasOutputs =
-    (props.model.status === 'COMPLETED' || props.model.status === 'FAILED') &&
-    props.model.job_files.some(
-      jobFile => jobFile.file_format !== 'input' && jobFile.file_path
-    );
+  // const hasOutputs =
+  //   (props.model.status === 'COMPLETED' || props.model.status === 'FAILED') &&
+  //   props.model.job_files.some(
+  //     jobFile => jobFile.file_format !== 'input' && jobFile.file_path
+  //   );
 
   const CoreOptions = (
     <Card>
@@ -281,7 +281,7 @@ export function JobDetail(props: IJobDetailProps): JSX.Element {
               ))}
             </Stack>
           ))}
-          {hasOutputs && (
+          {/* {hasOutputs && (
             <>
               <FormLabel component="legend">
                 {trans.__('Output files')}
@@ -299,7 +299,7 @@ export function JobDetail(props: IJobDetailProps): JSX.Element {
                   />
                 ))}
             </>
-          )}
+          )} */}
         </Stack>
       </CardContent>
     </Card>
@@ -368,7 +368,7 @@ export function JobDetail(props: IJobDetailProps): JSX.Element {
       {JobButtonBar}
       {CoreOptions}
       {Parameters}
-      {AdvancedOptions}
+      {1 === 1 ? null : AdvancedOptions}
     </>
   );
 }

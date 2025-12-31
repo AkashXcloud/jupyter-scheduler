@@ -415,3 +415,25 @@ class FilesDownloadHandler(ExtensionHandlerMixin, APIHandler):
         else:
             self.set_status(204)
             self.finish()
+
+class WarehousesHandler(ExtensionHandlerMixin, APIHandler):
+    @authenticated
+    async def get(self):
+        """
+        Return dummy warehouse data (temporary)
+        """
+        dummy_warehouses = [
+            {
+                "id": "wh_001",
+                "name": "warehouse_1",
+                "label": "Warehouse 1 (Dummy)",
+            },
+            {
+                "id": "wh_002",
+                "name": "warehouse_2",
+                "label": "Warehouse 2 (Dummy)",
+            },
+        ]
+
+        self.finish(json.dumps({"warehouses": dummy_warehouses}))
+

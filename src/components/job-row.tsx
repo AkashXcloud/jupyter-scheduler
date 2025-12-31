@@ -52,7 +52,7 @@ function Timestamp(props: { job: Scheduler.IDescribeJob }): JSX.Element | null {
   return <>{create_display_date}</>;
 }
 
-function JobFiles(props: {
+export function JobFiles(props: {
   job: Scheduler.IDescribeJob;
   app: JupyterFrontEnd;
 }): JSX.Element | null {
@@ -82,7 +82,7 @@ type DownloadFilesButtonProps = {
   setDisplayError: (message: React.ReactNode) => void;
 };
 
-function DownloadFilesButton(props: DownloadFilesButtonProps) {
+export function DownloadFilesButton(props: DownloadFilesButtonProps) {
   const [downloading, setDownloading] = useState(false);
   const trans = useTranslator('jupyterlab');
   const log = useEventLogger();
@@ -156,18 +156,6 @@ export function buildJobRow(
     ) : (
       job.input_filename
     ),
-    <>
-      {!job.downloaded &&
-        (job.status === 'COMPLETED' || job.status === 'FAILED') && (
-          <DownloadFilesButton
-            app={app}
-            job={job}
-            reload={reload}
-            setDisplayError={setDisplayError}
-          />
-        )}
-      <JobFiles job={job} app={app} />
-    </>,
     <Timestamp job={job} />,
     translateStatus(job.status),
     <Stack spacing={1} direction="row">

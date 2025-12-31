@@ -288,6 +288,18 @@ export class SchedulerService {
     }
   }
 
+  async getWarehouses(): Promise<Scheduler.IListWarehousesResponse> {
+    let data;
+    try {
+      data = await requestAPI(this.serverSettings, 'warehouses', {
+        method: 'GET'
+      });
+    } catch (e) {
+      return Promise.reject(e);
+    }
+    return data as Scheduler.IListWarehousesResponse;
+  } 
+
   /**
    * The server settings used to make API requests.
    */
@@ -528,6 +540,16 @@ export namespace Scheduler {
   }
 
   export interface IOutputFormat {
+    name: string;
+    label: string;
+  }
+
+  export interface IListWarehousesResponse {
+    warehouses: IWarehouse[];
+  }
+
+  export interface IWarehouse {
+    id: string;
     name: string;
     label: string;
   }
