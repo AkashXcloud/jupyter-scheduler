@@ -530,10 +530,10 @@ export function CreateJob(props: ICreateJobProps): JSX.Element {
             environmentList={environmentList}
             value={props.model.environment}
           />
-          <PackageInputFolderControl
+          {1===1?null:(<PackageInputFolderControl
             onChange={handleInputChange}
             inputFile={props.model.inputFile}
-          />
+          />)}
           <WarehousePicker
             label={trans.__('Warehouse')}
             name={'warehouse'}
