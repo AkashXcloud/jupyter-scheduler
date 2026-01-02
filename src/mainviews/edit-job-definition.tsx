@@ -8,7 +8,8 @@ import {
   Link,
   Stack,
   Typography,
-  InputLabel
+  InputLabel,
+  SelectChangeEvent
 } from '@mui/material';
 
 import { Heading } from '../components/heading';
@@ -16,15 +17,17 @@ import { Cluster } from '../components/cluster';
 import { ScheduleInputs } from '../components/schedule-inputs';
 import { IUpdateJobDefinitionModel, JobsView } from '../model';
 import { useEventLogger, useTranslator } from '../hooks';
-import { SchedulerService } from '../handler';
+import { SchedulerService, Scheduler as SchedulerRef } from '../handler';
 import { Scheduler } from '../tokens';
 import { InputFileSnapshot } from '../components/input-file-snapshot';
 import { LabeledValue } from '../components/labeled-value';
 import { timestampLocalize } from './detail-view/job-detail';
 import { getErrorMessage } from '../util/errors';
+import { WarehousePicker } from '../components/warehouse-picker';
 
 export type EditJobDefinitionProps = {
   model: IUpdateJobDefinitionModel;
+  handleWarehouseChange: (event: SelectChangeEvent<string>) => void;
   handleModelChange: (model: IUpdateJobDefinitionModel) => void;
   showListView: (view: JobsView.ListJobDefinitions) => void;
   showJobDefinitionDetail: (jobDefId: string) => void;
@@ -62,8 +65,22 @@ function EditJobDefinitionBody(props: EditJobDefinitionProps): JSX.Element {
       setLoading(false);
     }
     fetchEnvironments();
+  }, []);  
+  const [warehouseList, setWarehouseList] = useState<SchedulerRef.IWarehouse[]>([]); 
+  useEffect(() => {
+    const fetchWarehouses = async () => {
+        try {
+          const response = await ss.getWarehouses();
+          setWarehouseList(response.warehouses);
+        } catch (e) {
+          const message = getErrorMessage(e);
+          console.error(
+              `Error fetching warehouses for create job form: ${message}`
+          );
+        }
+    };
+    fetchWarehouses();
   }, []);
-
   const handleSubmit = async () => {
     if (hasErrors) {
       return;
@@ -73,7 +90,8 @@ function EditJobDefinitionBody(props: EditJobDefinitionProps): JSX.Element {
     ss.updateJobDefinition(props.model.definitionId, {
       schedule: props.model.schedule,
       timezone: props.model.timezone,
-      input_uri: props.model.inputFileSnapshot
+      input_uri: props.model.inputFileSnapshot,
+      warehouse: props.model.warehouse
     })
       .then(() => {
         props.showJobDefinitionDetail(props.model.definitionId);
@@ -97,6 +115,14 @@ function EditJobDefinitionBody(props: EditJobDefinitionProps): JSX.Element {
         </Alert>
       )}
       <InputFileSnapshot inputFileSnapshot={props.model.inputFileSnapshot} />
+      <WarehousePicker
+        value={props.model.warehouse}
+        onChange={props.handleWarehouseChange}
+        label={trans.__('Warehouse')}
+        name="warehouse"
+        id="warehouse"
+        warehouseList={warehouseList}
+      />
       <InputLabel>{trans.__('Schedule')}</InputLabel>
       <ScheduleInputs
         idPrefix=""

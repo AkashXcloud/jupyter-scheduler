@@ -86,7 +86,7 @@ class CreateJob(BaseModel):
     output_filename_template: Optional[str] = OUTPUT_FILENAME_TEMPLATE
     compute_type: Optional[str] = None
     package_input_folder: Optional[bool] = None
-
+    warehouse: Optional[str] = None
     @root_validator
     def compute_input_filename(cls, values) -> Dict:
         if not values["input_filename"] and values["input_uri"]:
@@ -148,7 +148,7 @@ class DescribeJob(BaseModel):
     downloaded: bool = False
     package_input_folder: Optional[bool] = None
     packaged_files: Optional[List[str]] = []
-
+    warehouse: Optional[str] = None
     class Config:
         orm_mode = True
 
@@ -213,7 +213,7 @@ class CreateJobDefinition(BaseModel):
     schedule: Optional[str] = None
     timezone: Optional[str] = None
     package_input_folder: Optional[bool] = None
-
+    warehouse: Optional[str] = None
     @root_validator
     def compute_input_filename(cls, values) -> Dict:
         if not values["input_filename"] and "input_uri" in values and values["input_uri"]:
@@ -240,6 +240,7 @@ class DescribeJobDefinition(BaseModel):
     active: bool
     package_input_folder: Optional[bool] = None
     packaged_files: Optional[List[str]] = []
+    warehouse: Optional[str] = None
 
     class Config:
         orm_mode = True
@@ -259,6 +260,7 @@ class UpdateJobDefinition(BaseModel):
     active: Optional[bool] = None
     compute_type: Optional[str] = None
     input_uri: Optional[str] = None
+    warehouse: Optional[str] = None
 
 
 class ListJobDefinitionsQuery(BaseModel):

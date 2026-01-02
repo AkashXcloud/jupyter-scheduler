@@ -376,6 +376,7 @@ export namespace Scheduler {
     schedule?: string;
     timezone?: string;
     package_input_folder?: boolean;
+    warehouse?: string;
   }
 
   export interface IUpdateJobDefinition {
@@ -384,6 +385,7 @@ export namespace Scheduler {
     timezone?: string;
     active?: boolean;
     input_uri?: string;
+    warehouse?: string;
   }
 
   export interface IDescribeJobDefinition {
@@ -403,6 +405,7 @@ export namespace Scheduler {
     update_time: number;
     active: boolean;
     package_input_folder?: boolean;
+    warehouse?: string;
   }
 
   export interface IEmailNotifications {
@@ -430,6 +433,7 @@ export namespace Scheduler {
     output_formats?: string[];
     compute_type?: string;
     package_input_folder?: boolean;
+    warehouse?: string;
   }
 
   export interface ICreateJobFromDefinition {
@@ -479,6 +483,7 @@ export namespace Scheduler {
     end_time?: number;
     downloaded: boolean;
     package_input_folder?: boolean;
+    warehouse?: string;
   }
 
   export interface ICreateJobResponse {

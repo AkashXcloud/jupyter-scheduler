@@ -231,12 +231,16 @@ export function JobDefinition(props: IJobDefinitionProps): JSX.Element {
         label: trans.__('Time zone')
       }
     ],
-    // [
-    //   {
-    //     value: model.packageInputFolder ? trans.__('Yes') : trans.__('No'),
-    //     label: trans.__('Ran with input folder')
-    //   }
-    // ]
+    [
+      // {
+      //   value: model.packageInputFolder ? trans.__('Yes') : trans.__('No'),
+      //   label: trans.__('Ran with input folder')
+      // }
+      {
+        value: model.warehouse ?? '',
+        label: trans.__('Warehouse')
+      }
+    ]
   ];
 
   const JobDefinition = (

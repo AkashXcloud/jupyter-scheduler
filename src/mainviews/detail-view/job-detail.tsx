@@ -256,6 +256,10 @@ export function JobDetail(props: IJobDetailProps): JSX.Element {
       //     : trans.__('No'),
       //   label: trans.__('Ran with input folder')
       // }
+      {
+        value: props.model.warehouse ?? '',
+        label: trans.__('Warehouse')
+      }
     ]
   ];
 
