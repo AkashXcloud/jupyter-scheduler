@@ -288,6 +288,18 @@ export class SchedulerService {
     }
   }
 
+  async getWarehouses(): Promise<Scheduler.IListWarehousesResponse> {
+    let data;
+    try {
+      data = await requestAPI(this.serverSettings, 'warehouses', {
+        method: 'GET'
+      });
+    } catch (e) {
+      return Promise.reject(e);
+    }
+    return data as Scheduler.IListWarehousesResponse;
+  } 
+
   /**
    * The server settings used to make API requests.
    */
@@ -364,6 +376,7 @@ export namespace Scheduler {
     schedule?: string;
     timezone?: string;
     package_input_folder?: boolean;
+    warehouse?: string;
   }
 
   export interface IUpdateJobDefinition {
@@ -372,6 +385,7 @@ export namespace Scheduler {
     timezone?: string;
     active?: boolean;
     input_uri?: string;
+    warehouse?: string;
   }
 
   export interface IDescribeJobDefinition {
@@ -391,6 +405,7 @@ export namespace Scheduler {
     update_time: number;
     active: boolean;
     package_input_folder?: boolean;
+    warehouse?: string;
   }
 
   export interface IEmailNotifications {
@@ -418,6 +433,7 @@ export namespace Scheduler {
     output_formats?: string[];
     compute_type?: string;
     package_input_folder?: boolean;
+    warehouse?: string;
   }
 
   export interface ICreateJobFromDefinition {
@@ -467,6 +483,7 @@ export namespace Scheduler {
     end_time?: number;
     downloaded: boolean;
     package_input_folder?: boolean;
+    warehouse?: string;
   }
 
   export interface ICreateJobResponse {
@@ -528,6 +545,16 @@ export namespace Scheduler {
   }
 
   export interface IOutputFormat {
+    name: string;
+    label: string;
+  }
+
+  export interface IListWarehousesResponse {
+    warehouses: IWarehouse[];
+  }
+
+  export interface IWarehouse {
+    id: string;
     name: string;
     label: string;
   }

@@ -209,7 +209,8 @@ export class NotebookJobsPanel extends VDomRenderer<JobsModel> {
       timezone: jobDef.timezone || 'UTC',
       scheduleInterval: 'custom',
       inputFileSnapshot: jobDef.inputFile,
-      updateTime: jobDef.updateTime
+      updateTime: jobDef.updateTime,
+      warehouse: jobDef.warehouse || ''
     };
   }
 
@@ -287,6 +288,13 @@ export class NotebookJobsPanel extends VDomRenderer<JobsModel> {
               {this.model.jobsView === JobsView.EditJobDefinition && (
                 <EditJobDefinition
                   model={this.model.updateJobDefinitionModel}
+                  handleWarehouseChange={event => {
+                    console.log("event.target.value:", event.target.value);
+                    (this.model.updateJobDefinitionModel = {
+                      ...this.model.updateJobDefinitionModel,
+                      warehouse: event.target.value
+                    })
+                  }}
                   handleModelChange={newModel =>
                     (this.model.updateJobDefinitionModel = newModel)
                   }

@@ -26,7 +26,7 @@ import { caretDownIcon } from '@jupyterlab/ui-components';
 
 import ErrorIcon from '@mui/icons-material/Error';
 import FolderIcon from '@mui/icons-material/Folder';
-
+import { WarehousePicker } from '../components/warehouse-picker';
 import {
   Accordion,
   AccordionDetails,
@@ -135,6 +135,24 @@ export function CreateJob(props: ICreateJobProps): JSX.Element {
     setList();
   }, []);
 
+  // get warehouse list
+  const [warehouseList, setWarehouseList] = useState<Scheduler.IWarehouse[]>([]);
+
+  useEffect(() => {
+    const fetchWarehouses = async () => {
+      try {
+        const response = await api.getWarehouses();
+        setWarehouseList(response.warehouses);
+      } catch (e: unknown) {
+        const message = getErrorMessage(e);
+        console.error(
+          `Error fetching warehouses for create job form: ${message}`
+        );
+      }
+    };
+    fetchWarehouses();
+  }, []);
+
   const envsByName = useMemo(() => {
     const obj: Record<string, Scheduler.IRuntimeEnvironment> = {};
     for (const env of environmentList) {
@@ -226,6 +244,11 @@ export function CreateJob(props: ICreateJobProps): JSX.Element {
       props.handleModelChange({ ...props.model, [target.name]: target.value });
     }
   };
+
+  const handleWarehouseChange = (event: SelectChangeEvent<string>) => {
+    const target = event.target;
+    props.handleModelChange({ ...props.model, warehouse: target.value });
+  }
 
   const handleOutputFormatsChange = (event: ChangeEvent<HTMLInputElement>) => {
     const outputFormatsList = outputFormatsForEnvironment(
@@ -322,7 +345,8 @@ export function CreateJob(props: ICreateJobProps): JSX.Element {
       idempotency_token: props.model.idempotencyToken,
       tags: props.model.tags,
       runtime_environment_parameters: props.model.runtimeEnvironmentParameters,
-      package_input_folder: props.model.packageInputFolder
+      package_input_folder: props.model.packageInputFolder,
+      warehouse: props.model.warehouse
     };
 
     if (props.model.parameters !== undefined) {
@@ -371,7 +395,8 @@ export function CreateJob(props: ICreateJobProps): JSX.Element {
       runtime_environment_parameters: props.model.runtimeEnvironmentParameters,
       schedule: props.model.schedule,
       timezone: props.model.timezone,
-      package_input_folder: props.model.packageInputFolder
+      package_input_folder: props.model.packageInputFolder,
+      warehouse: props.model.warehouse
     };
 
     if (props.model.parameters !== undefined) {
@@ -507,11 +532,19 @@ export function CreateJob(props: ICreateJobProps): JSX.Element {
             environmentList={environmentList}
             value={props.model.environment}
           />
-          <PackageInputFolderControl
+          {1===1?null:(<PackageInputFolderControl
             onChange={handleInputChange}
             inputFile={props.model.inputFile}
+          />)}
+          <WarehousePicker
+            label={trans.__('Warehouse')}
+            name={'warehouse'}
+            id={`${formPrefix}warehouse`}
+            onChange={handleWarehouseChange}
+            warehouseList={warehouseList}
+            value={props.model.warehouse}
           />
-          <OutputFormatPicker
+          {1===1?null:(<OutputFormatPicker
             label={trans.__('Output formats')}
             name="outputFormat"
             id={`${formPrefix}outputFormat`}
@@ -519,7 +552,7 @@ export function CreateJob(props: ICreateJobProps): JSX.Element {
             environmentList={environmentList}
             environment={props.model.environment}
             value={props.model.outputFormats || []}
-          />
+          />)}
           <ComputeTypePicker
             label={trans.__('Compute type')}
             name="computeType"
@@ -541,7 +574,7 @@ export function CreateJob(props: ICreateJobProps): JSX.Element {
             errors={errors}
             handleErrorsChange={setErrors}
           />
-          <Accordion
+          {1===1?null:(<Accordion
             defaultExpanded={false}
             expanded={advancedOptionsExpanded}
             onChange={(e: React.SyntheticEvent, expanded: boolean) => {
@@ -578,7 +611,7 @@ export function CreateJob(props: ICreateJobProps): JSX.Element {
                 handleErrorsChange={setAdvancedOptionsErrors}
               />
             </AccordionDetails>
-          </Accordion>
+          </Accordion>)}
           <CreateScheduleOptions
             label={trans.__('Schedule')}
             name={'createType'}

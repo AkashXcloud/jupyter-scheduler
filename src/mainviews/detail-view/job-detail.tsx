@@ -250,20 +250,24 @@ export function JobDetail(props: IJobDetailProps): JSX.Element {
         value: timestampLocalize(props.model.endTime ?? ''),
         label: trans.__('End time')
       },
+      // {
+      //   value: props.model.packageInputFolder
+      //     ? trans.__('Yes')
+      //     : trans.__('No'),
+      //   label: trans.__('Ran with input folder')
+      // }
       {
-        value: props.model.packageInputFolder
-          ? trans.__('Yes')
-          : trans.__('No'),
-        label: trans.__('Ran with input folder')
+        value: props.model.warehouse ?? '',
+        label: trans.__('Warehouse')
       }
     ]
   ];
 
-  const hasOutputs =
-    (props.model.status === 'COMPLETED' || props.model.status === 'FAILED') &&
-    props.model.job_files.some(
-      jobFile => jobFile.file_format !== 'input' && jobFile.file_path
-    );
+  // const hasOutputs =
+  //   (props.model.status === 'COMPLETED' || props.model.status === 'FAILED') &&
+  //   props.model.job_files.some(
+  //     jobFile => jobFile.file_format !== 'input' && jobFile.file_path
+  //   );
 
   const CoreOptions = (
     <Card>
@@ -281,7 +285,7 @@ export function JobDetail(props: IJobDetailProps): JSX.Element {
               ))}
             </Stack>
           ))}
-          {hasOutputs && (
+          {/* {hasOutputs && (
             <>
               <FormLabel component="legend">
                 {trans.__('Output files')}
@@ -299,7 +303,7 @@ export function JobDetail(props: IJobDetailProps): JSX.Element {
                   />
                 ))}
             </>
-          )}
+          )} */}
         </Stack>
       </CardContent>
     </Card>
@@ -368,7 +372,7 @@ export function JobDetail(props: IJobDetailProps): JSX.Element {
       {JobButtonBar}
       {CoreOptions}
       {Parameters}
-      {AdvancedOptions}
+      {1 === 1 ? null : AdvancedOptions}
     </>
   );
 }

@@ -121,10 +121,10 @@ export function ListJobsTable(props: IListJobsTableProps): JSX.Element {
       sortField: 'input_filename',
       name: trans.__('Input filename')
     },
-    {
-      sortField: null,
-      name: trans.__('Output files')
-    },
+    // {
+    //   sortField: null,
+    //   name: trans.__('Output files')
+    // },
     {
       sortField: 'create_time',
       name: trans.__('Created at')

@@ -232,9 +232,13 @@ export function JobDefinition(props: IJobDefinitionProps): JSX.Element {
       }
     ],
     [
+      // {
+      //   value: model.packageInputFolder ? trans.__('Yes') : trans.__('No'),
+      //   label: trans.__('Ran with input folder')
+      // }
       {
-        value: model.packageInputFolder ? trans.__('Yes') : trans.__('No'),
-        label: trans.__('Ran with input folder')
+        value: model.warehouse ?? '',
+        label: trans.__('Warehouse')
       }
     ]
   ];
@@ -308,7 +312,7 @@ export function JobDefinition(props: IJobDefinitionProps): JSX.Element {
       {DefinitionButtonBar}
       {JobDefinition}
       {JobsList}
-      {AdvancedOptions}
+      { 1 === 1 ? null : AdvancedOptions}
     </>
   );
 }

@@ -652,6 +652,7 @@ class Scheduler(BaseScheduler):
                 )
                 and describe_job_definition.schedule == model.schedule
                 and describe_job_definition.timezone == model.timezone
+                and describe_job_definition.warehouse == model.warehouse
                 and (model.active == None or describe_job_definition.active == model.active)
             ):
                 return
